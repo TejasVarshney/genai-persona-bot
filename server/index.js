@@ -36,7 +36,7 @@ app.post("/chat", async (req, res) => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          model: "gemini-2.0-flash",
+          model: process.env.MODEL,
           temperature: 0.7,
           max_tokens: 200,
           messages: [
@@ -57,11 +57,14 @@ app.post("/chat", async (req, res) => {
 
     const reply = data.choices?.[0]?.message?.content;
 
+    if (!reply) {
+      const apiError = data.error?.message || "No response from AI. Please try again.";
+      return res.status(502).json({ error: apiError });
+    }
+
     res.json({ reply });
   } catch (error) {
     console.error(error);
-    res.status(500).json({
-      error: "Something went wrong. Please try again.",
-    });
+    res.status(500).json({ error: "Something went wrong. Please try again." });
   }
 });

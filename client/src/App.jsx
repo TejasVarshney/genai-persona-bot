@@ -95,7 +95,8 @@ export default function App() {
         body: JSON.stringify({ message: msg, persona }),
       });
       const data = await res.json();
-      setMessages((prev) => [...prev, { role: "bot", text: data.reply }]);
+      const text = data.reply || data.error || "Something went wrong. Please try again.";
+      setMessages((prev) => [...prev, { role: "bot", text }]);
     } catch {
       setMessages((prev) => [...prev, { role: "bot", text: "Error: Could not reach the server." }]);
     }
