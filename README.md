@@ -1,133 +1,127 @@
-# 🤖 Persona-Based AI Chatbot
+# Persona.AI
 
-A real-world application built using prompt engineering concepts, where users can interact with three distinct personalities from Scaler Academy:
+A prompt engineering project where users chat with three distinct personalities from Scaler Academy. Each persona has a unique communication style built entirely through system prompt design.
 
-- **Anshuman Singh**
-- **Abhimanyu Saxena**
-- **Kshitij Mishra**
+## Screenshots
 
-Each persona behaves uniquely based on carefully designed system prompts.
+**Anshuman Singh — Concept Architect**
+![Anshuman Singh persona in active conversation](ss2.png)
 
-## 🎭 Persona Differences
+**Abhimanyu Saxena — Execution Engine**
+![Abhimanyu Saxena persona on empty state](ss3.png)
 
-Each persona behaves differently:
-
-- **Anshuman Singh** → Concept-first, guides with questions
-- **Abhimanyu Saxena** → Direct, execution-focused advice
-- **Kshitij Mishra** → Pattern-based, technical, optimized thinking
+**Kshitij Mishra — Algorithm Oracle**
+![Kshitij Mishra persona on empty state](ss1.png)
 
 ---
 
-## 🔗 Live Demo
+## Live Demo
 
-> Frontend: https://persona-ai-chatbot-phi.vercel.app/  
-> Backend: https://persona-chatbot-backend-uh2z.onrender.com/
+- Frontend: https://persona-ai-chatbot-phi.vercel.app/
+- Backend: https://persona-chatbot-backend-uh2z.onrender.com/
 
 ---
 
-## 🧠 Features
+## Personas
 
-- Switch between 3 different personas
-- Each persona has a completely different communication style
+| Persona | Style |
+|---|---|
+| **Anshuman Singh** | First-principles thinker. Builds intuition before answers. Guides with questions. |
+| **Abhimanyu Saxena** | Direct and execution-focused. Cuts to actionable steps. No hand-holding. |
+| **Kshitij Mishra** | Pattern-first. Concise and technical. Always mentions time/space complexity. |
+
+---
+
+## Features
+
+- Three personas with completely different communication styles
 - Suggestion chips for quick interaction
 - Typing indicator while the model responds
-- Chat resets when persona is switched
-- Clean and responsive UI (works on mobile + desktop)
+- Chat resets on persona switch
+- Smooth accent color transitions between personas
+- Responsive layout (mobile + desktop)
 
 ---
 
-## 🏗️ Tech Stack
+## Tech Stack
 
-**Frontend:**
-- React (Vite)
-- Plain CSS
-
-**Backend:**
-- Node.js
-- Express
-
-**API:**
-- AICredits (OpenAI-compatible API)
+**Frontend:** React (Vite), plain CSS  
+**Backend:** Node.js, Express  
+**API:** OpenRouter (OpenAI-compatible)
 
 ---
 
-## ⚙️ Setup Instructions
+## Setup
 
-### 1. Clone the Repository
+### 1. Clone
 
 ```bash
 git clone <your-repo-link>
 cd persona-ai-chatbot
 ```
 
-### 2. Backend Setup
+### 2. Backend
 
 ```bash
 cd server
 npm install
 ```
 
-Create a `.env` file:
+Create `server/.env`:
 
 ```env
-API_KEY=your_api_key_here
-API_BASE_URL=https://api.aicredits.in/v1
+API_KEY=your_openrouter_api_key
+API_BASE_URL=https://openrouter.ai/api/v1
+MODEL=google/gemma-3-27b-it:free
 ```
-
-Run the backend:
 
 ```bash
 npm start
 ```
 
-### 3. Frontend Setup
+### 3. Frontend
 
 ```bash
 cd client
 npm install
+```
+
+Create `client/.env`:
+
+```env
+VITE_API_URL=http://localhost:5000/chat
+```
+
+```bash
 npm run dev
 ```
 
 ---
 
-## 📁 Project Structure
+## Project Structure
 
 ```
 persona-ai-chatbot/
-├── client/
-├── server/
+├── client/          # React frontend
+├── server/          # Express backend
+│   ├── index.js
+│   ├── prompts.js
+│   └── .env
 ├── prompts.md
 ├── reflection.md
 └── README.md
 ```
 
+---
+
+## Notes
+
+- API keys are not included in the repository
+- The backend must be running before using the frontend
+- Switching personas resets the conversation
 
 ---
 
-## ⚠️ Important Notes
+## Acknowledgement
 
-- API keys are **not** included in the repository
-- `.env.example` is provided for reference
-- Make sure the backend is running before using the frontend
-
----
-
-## 🚀 What This Project Demonstrates
-
-- Strong prompt engineering with persona design
-- Real API integration
-- Clean frontend-backend architecture
-- Practical application of LLM concepts
-
----
-
-## 📸 Screenshots
-
-![alt text](image.png)
-![alt text](image-1.png)
-![alt text](image-2.png)
-
-
-## 🙌 Acknowledgement
-
-This project was built as part of the **Prompt Engineering** module at [Scaler School Of Technology](https://www.scaler.com/).
+Built as part of the **Prompt Engineering** module at [Scaler School of Technology](https://www.scaler.com/).
