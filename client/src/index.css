@@ -67,11 +67,46 @@ body::after {
   transition: var(--bg-t);
 }
 
+/* Persona portrait blended into profile bg */
+.profile-portrait {
+  position: absolute;
+  bottom: 0;
+  pointer-events: none;
+  opacity: 0.2;
+  mix-blend-mode: screen;
+  z-index: 0;
+}
+
+.profile-portrait img {
+  width: 280px;
+  height: 320px;
+  display: block;
+  object-fit: cover;
+  object-position: top center;
+}
+
+/* White-bg photos: contrast + brightness tweak */
+.profile-portrait[data-persona="anshuman"] img,
+.profile-portrait[data-persona="abhimanyu"] img {
+  filter: contrast(1.1) brightness(0.85);
+}
+
+/* Dark-bg photo */
+.profile-portrait[data-persona="kshitij"] img {
+  filter: contrast(1.2) brightness(1.15);
+}
+
+/* Keep text content above portrait */
+.profile-brand,
+.profile-identity,
+.switcher {
+  position: relative;
+  z-index: 1;
+}
+
 /* Decorative watermark number */
 .profile-watermark {
   position: absolute;
-  bottom: -24px;
-  right: -16px;
   font-family: 'Cormorant Garamond', serif;
   font-size: 220px;
   font-weight: 700;
@@ -316,6 +351,10 @@ body::after {
 
 /* Mobile bar — hidden on desktop */
 .mobile-bar {
+  display: none;
+}
+
+.mobile-persona-strip {
   display: none;
 }
 
@@ -615,35 +654,45 @@ body::after {
 @media (max-width: 720px) {
   .app {
     grid-template-columns: 1fr;
-    grid-template-rows: auto 1fr;
+    grid-template-rows: 1fr;
+    height: 100dvh;
   }
 
-  .profile {
-    display: none;
+  .profile { display: none; }
+
+  .chat-panel {
+    display: flex;
+    flex-direction: column;
+    height: 100dvh;
+    overflow: hidden;
   }
 
+  /* ── Persona switcher pills ── */
   .mobile-bar {
     display: flex;
     gap: 8px;
-    padding: 12px 16px;
+    padding: 10px 16px;
     background: var(--bg-secondary);
     border-bottom: 1px solid var(--border);
     overflow-x: auto;
     scrollbar-width: none;
     flex-shrink: 0;
-    transition: background var(--dur) var(--ease);
+    transition: var(--bg-t);
   }
 
   .mobile-bar::-webkit-scrollbar { display: none; }
 
   .mobile-pill {
-    padding: 7px 16px;
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    padding: 6px 12px 6px 8px;
     border-radius: 20px;
     border: 1px solid var(--border);
     background: transparent;
     color: var(--text-muted);
     font-family: 'Outfit', sans-serif;
-    font-size: 12.5px;
+    font-size: 12px;
     font-weight: 500;
     cursor: pointer;
     white-space: nowrap;
@@ -657,10 +706,97 @@ body::after {
     color: var(--pill-accent);
   }
 
-  .chat { padding: 16px 16px 10px; }
-  .chips { padding: 10px 16px; }
-  .input-row { padding: 12px 16px 16px; }
-  .chat-header { padding: 12px 16px; }
+  .mobile-pill-abbr {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    border: 1.5px solid var(--pill-accent);
+    background: color-mix(in srgb, var(--pill-accent) 10%, transparent);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 10px;
+    font-weight: 700;
+    color: var(--pill-accent);
+    flex-shrink: 0;
+  }
+
+  .mobile-pill.active .mobile-pill-abbr {
+    background: var(--pill-accent);
+    color: var(--bg-secondary);
+  }
+
+  .mobile-pill-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 8px;
+    letter-spacing: 0.1em;
+    opacity: 0.5;
+    align-self: flex-start;
+    margin-top: 1px;
+  }
+
+  /* ── Persona info strip ── */
+  .mobile-persona-strip {
+    padding: 12px 16px 14px;
+    background: var(--bg-secondary);
+    border-bottom: 1px solid var(--border);
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    transition: opacity 0.18s ease, var(--bg-t);
+  }
+
+  .mobile-persona-strip.fading { opacity: 0; }
+
+  .mobile-strip-left {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .mobile-strip-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--text-primary);
+    line-height: 1.1;
+  }
+
+  .mobile-strip-name em {
+    font-weight: 400;
+    font-style: italic;
+    opacity: 0.6;
+  }
+
+  .mobile-strip-title {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 8.5px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--accent);
+    transition: var(--color-t);
+  }
+
+  .mobile-strip-quote {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 12px;
+    font-style: italic;
+    color: var(--text-muted);
+    line-height: 1.5;
+    text-align: right;
+    max-width: 45%;
+    border: none;
+    padding: 0;
+  }
+
+  /* ── Chat adjustments ── */
+  .chat { padding: 14px 14px 10px; flex: 1; min-height: 0; }
+  .chips { padding: 8px 14px; }
+  .input-row { padding: 10px 14px env(safe-area-inset-bottom, 14px); }
+  .chat-header { padding: 10px 14px; }
 
   .msg.user { max-width: 85%; }
   .msg.bot  { max-width: 92%; }

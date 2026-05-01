@@ -38,7 +38,7 @@ app.post("/chat", async (req, res) => {
         body: JSON.stringify({
           model: process.env.MODEL,
           temperature: 0.7,
-          max_tokens: 200,
+          max_tokens: parseInt(process.env.MAX_TOKENS || "400"),
           messages: [
             {
               role: "system",

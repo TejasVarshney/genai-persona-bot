@@ -1,5 +1,10 @@
 import { useState, useEffect, useRef } from "react";
 import "./index.css";
+import anshumanImg from "./assets/anshuman.png";
+import abhimanyuImg from "./assets/abhimanyu.png";
+import kshitijImg from "./assets/kshitij.png";
+
+const PORTRAITS = { anshuman: anshumanImg, abhimanyu: abhimanyuImg, kshitij: kshitijImg };
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -133,6 +138,9 @@ export default function App() {
     >
       {/* ── Profile Panel ─────────────────────────────── */}
       <aside className="profile">
+        <div className="profile-portrait" data-persona={displayPersona}>
+          <img src={PORTRAITS[displayPersona]} alt="" />
+        </div>
         <div className="profile-watermark">{dp.num}</div>
 
         <div className="profile-brand">
@@ -179,9 +187,19 @@ export default function App() {
               onClick={() => handlePersonaChange(key)}
               style={{ "--pill-accent": pd.accent, "--pill-dim": pd.accentDim }}
             >
-              {pd.firstName}
+              <span className="mobile-pill-abbr">{pd.abbr}</span>
+              <span>{pd.firstName}</span>
+              <span className="mobile-pill-num">{pd.num}</span>
             </button>
           ))}
+        </div>
+
+        <div className={`mobile-persona-strip ${fading ? "fading" : ""}`}>
+          <div className="mobile-strip-left">
+            <span className="mobile-strip-name">{dp.firstName} <em>{dp.lastName}</em></span>
+            <span className="mobile-strip-title">{dp.title}</span>
+          </div>
+          <blockquote className="mobile-strip-quote">"{dp.tagline}"</blockquote>
         </div>
 
         <div className="chat-header">
